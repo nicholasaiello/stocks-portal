@@ -1,0 +1,22 @@
+
+/* quote */
+
+.card {
+  
+}
+
+.quote {
+  color: #333;
+}
+
+.quote .name {
+  text-align: left;
+}
+
+.quote.up .price {
+  color:  green;
+}
+
+.quote.down .price {
+  color:  red;
+}
