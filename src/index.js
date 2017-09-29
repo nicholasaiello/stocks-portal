@@ -11,7 +11,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 /* TODO
  - allow user to create grids
  - allow user to add/remove cards (symbols)
- - add TTL rules to local data
+ - move magic numbers to constants
  - more styling
 */
 

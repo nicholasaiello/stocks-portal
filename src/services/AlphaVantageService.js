@@ -17,7 +17,7 @@ const AlphaVantageService = (ctx) => {
     const created = new Date(obj._created),
       delta = ((+new Date) - created.getTime());
 
-    console.log('delta', delta);
+    console.debug('delta', delta);
     return delta > TTL;
   };
 
@@ -44,9 +44,8 @@ const AlphaVantageService = (ctx) => {
   }.bind(ctx);
 
   const fetchJson = function(symbol, func = 'TIME_SERIES_INTRADAY') {
-    // check cache for symbol
     const quote = JSON.parse(window.localStorage.getItem(cacheKey(symbol)));
-    console.log('fetchJson', quote);
+
     if (!quote || isCacheExpired(quote)) {
       return fetch(baseUrl(symbol, func), {
         method: 'GET'
@@ -62,6 +61,7 @@ const AlphaVantageService = (ctx) => {
         resolve(quote);
       }, 500);
     });
+    
   }.bind(ctx);
 
   return {
