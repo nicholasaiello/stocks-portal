@@ -1,11 +1,15 @@
 import React from 'react';
 
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+
 import QuoteCardGrid from '../containers/QuoteCardGrid';
 
 
-const QuoteCardGridSet = (props) => {
+// TODO move to consts
+const MAX_GRIDS = 4;
 
-  // TODO fetch from localStorage
+// TODO fetch from localStorage
   const gridData = [
     {
       title: 'Open Positions',
@@ -21,6 +25,9 @@ const QuoteCardGridSet = (props) => {
     }
   ];
 
+
+const QuoteCardGridSet = (props) => {
+
   const styles = {
     root: {
       display: 'flex',
@@ -30,6 +37,10 @@ const QuoteCardGridSet = (props) => {
     gridList: {
       overflowY: 'auto'
     }
+  };
+
+  const handleAddGridClick = (e) => {
+    // TODO show dialog
   };
 
   const nodes = gridData.map((g, i) => (
@@ -46,6 +57,9 @@ const QuoteCardGridSet = (props) => {
 
   return (
     <span>{nodes}</span>
+    <FloatingActionButton mini={true} secondary={true} disabled={gridData.length >= MAX_GRIDS} onClick={handleAddGridClick}>
+      <ContentAdd />
+    </FloatingActionButton>
   );
 };
 

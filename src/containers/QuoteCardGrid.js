@@ -8,9 +8,14 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import GridList from 'material-ui/GridList';
 
-import QuoteCard from '../components/QuoteCard';
+import { QuoteCard, EmptyQuoteCard, AddQuoteCard } from '../components/QuoteCard';
 
 import AlphaVantageService from '../services/AlphaVantageService';
+
+
+// TODO move
+const FETCH_INTERVAL = 1500;
+const MAX_CARDS = 6;
 
 
 class QuoteCardGrid extends Component {
@@ -58,7 +63,7 @@ class QuoteCardGrid extends Component {
           }
         });
 
-      }, 1500 * i);  // throttle the api service
+      }, FETCH_INTERVAL * i);  // throttle the api service
 
       i += 1;
     }); 
@@ -101,16 +106,29 @@ class QuoteCardGrid extends Component {
     });
   };
 
+  handleAddCardClick = () => {
+
+  };
+
   render() {
-    const cards = this.state.symbols.map((s, i) => {
+    let cards = this.state.symbols.map((s, i) => {
         let q = this.state.quotes[s];
         if (q) {
           return <QuoteCard key={i} quote={this.state.quotes[s]} />
         } else {
-          return <span key={i}></span>
+          return <EmptyQuoteCard key={i} symbol={s} />
         }
       }
     );
+
+    let size = cards.length,
+      canAddMore = size < MAX_CARDS;
+
+    if (canAddMore) {
+      cards.push(
+        <AddQuoteCard key={size} onClick={this.handleAddCardClick} />
+      );
+    }
 
     return (
       <GridList
