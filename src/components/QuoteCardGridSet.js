@@ -1,65 +1,35 @@
-import React, { Component } from 'react';
-
-import FlatButton from 'material-ui/FlatButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
-import Dialog from 'material-ui/Dialog';
+import React from 'react';
 
 import QuoteCardGrid from './QuoteCardGrid';
 
 
-class QuoteCardGridSet extends Component {
+const QuoteCardGridSet = ({ grids, columns }) => {
 
-  constructor(props) {
-    super(props);
-    this.state = { 
-      open: false
-    };
-  }
-
-  handleAddGridClick = (e) => {
-    // TODO show dialog
-  }
-
-  handleOpen = () => {
-    this.setState({open: true});
-  }
-
-  handleClose = () => {
-    this.setState({open: false});
-  }
-
-  render() {
-    const nodes = this.props.grids.map((g, i) => (
-        <QuoteCardGrid 
-          key={i}
-          title={g.title} 
-          columns={this.props.columns}
-          padding={this.props.padding}
-          styles={this.props.gridStyles}
-          symbols={g.symbols} />
-      )
-    );
-
+  console.debug(grids);
+  if (grids.length === 0) {
     return (
       <div>
-        <span>{nodes}</span>
+        <h3>{"You don't have any charts to display."}</h3>
+        <p>{"Click the button on the bottom-right corner to get started!"}</p>
       </div>
     );
   }
-};
 
-QuoteCardGridSet.defaultProps = {
-  gridStyles: {
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around'
-    },
-    gridList: {
-      overflowY: 'auto'
-    }
-  }
+  const nodes = grids.map((g, i) => (
+        <QuoteCardGrid 
+          key={i}
+          title={g.title}
+          symbols={g.symbols}
+          columns={columns} />
+      )
+    );
+
+  return (
+    <div>
+      {nodes}
+    </div>
+  );
+
 };
 
 export default QuoteCardGridSet;

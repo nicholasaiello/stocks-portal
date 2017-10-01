@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Strings from '../constants/Strings';
+import * as strings from '../constants/Strings';
 
 const AboutPage = () => {
 
   return (
     <div>
-      <h2>{Strings.aboutTitle}</h2>
+      <h2>{strings.aboutTitle}</h2>
       <section>
         <p>
         	This little app was a good excuse to play around with ReactJS and incorporate Redux.<br/><br/>

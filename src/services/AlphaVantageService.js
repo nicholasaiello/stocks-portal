@@ -1,6 +1,16 @@
 import { DEBUG } from '../constants/Env';
 import { API_KEY } from '../constants/AlphaVantage';
 
+// TODO move somewhere else
+Date.prototype.stdTimezoneOffset = function() {
+  let jan = new Date(this.getFullYear(), 0, 1),
+    jul = new Date(this.getFullYear(), 6, 1);
+  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+};
+
+Date.prototype.dst = function() {
+  return this.getTimezoneOffset() < this.stdTimezoneOffset()
+};
 
 const AlphaVantageService = (ctx) => {
 
@@ -10,7 +20,7 @@ const AlphaVantageService = (ctx) => {
     `https://www.alphavantage.co/query?function=${func}&symbol=${symbol}&interval=1min&apikey=${API_KEY}`
   );
 
-  const cacheKey = (v) => (
+  const createCacheKey = (v) => (
     `av:s:${v}`
   );
 
@@ -18,7 +28,6 @@ const AlphaVantageService = (ctx) => {
     const created = new Date(obj._created),
       delta = ((+new Date) - created.getTime());
 
-    console.debug('delta', delta);
     return delta > TTL;
   };
 
@@ -26,18 +35,22 @@ const AlphaVantageService = (ctx) => {
     let meta = json['Meta Data'] || false;
 
     if (meta) {
-      let symbol = meta['2. Symbol'],
+      const now = new Date();
+      const symbol = meta['2. Symbol'],
         lastUpdate = meta['3. Last Refreshed'],
         lastTick = json['Time Series (1min)'][lastUpdate];
 
-      const quote = {
+      let quote = {
         symbol: symbol,
         price: parseFloat(lastTick['4. close']),
         ts: lastUpdate,
-        '_created': (new Date()).toJSON()
+        '_created': now.toJSON()
       };
 
-      window.localStorage.setItem(cacheKey(symbol), JSON.stringify(quote));
+      window.localStorage.setItem(createCacheKey(symbol), JSON.stringify(quote));
+
+      // FIXME: api uses US/Eastern. hard-code for now
+      quote.ts = new Date(lastUpdate + ' E' + (now.dst() ? 'D' : 'S') + 'T');
 
       return quote;
     }
@@ -45,7 +58,7 @@ const AlphaVantageService = (ctx) => {
   }.bind(ctx);
 
   const fetchJson = function(symbol, func = 'TIME_SERIES_INTRADAY') {
-    const quote = JSON.parse(window.localStorage.getItem(cacheKey(symbol)));
+    const quote = JSON.parse(window.localStorage.getItem(createCacheKey(symbol)));
 
     if (!quote || isCacheExpired(quote)) {
       return fetch(baseUrl(symbol, func), {
@@ -59,6 +72,8 @@ const AlphaVantageService = (ctx) => {
 
     return new Promise((resolve) => {
       setTimeout(() => {
+        const now = new Date();
+        quote.ts = new Date(quote.ts + ' E' + (now.dst() ? 'D' : 'S') + 'T');
         resolve(quote);
       }, 500);
     });

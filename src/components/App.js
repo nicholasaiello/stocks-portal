@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 
-import Strings from '../constants/Strings';
+import * as strings from '../constants/Strings';
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 
 import Dashboard from './Dashboard';
+import DashboardContainer from '../containers/DashboardContainer';
 
-import AboutPage from '../containers/AboutPage';
-import ContactPage from '../containers/ContactPage';
-import ProfilePage from '../containers/ProfilePage';
+import AboutPage from './AboutPage';
+import ContactPage from './ContactPage';
+import ProfilePage from './ProfilePage';
 
 import '../App.css';
 
@@ -49,7 +50,7 @@ class App extends Component {
     const page = (p) => {
       switch(p) {
         case 0:
-          return <Dashboard />;
+          return <DashboardContainer />;
         case 1:
           return <ProfilePage />;
         case 2:
@@ -62,7 +63,7 @@ class App extends Component {
     return (
       <div className="app">
         <AppBar
-          title={Strings.appTitle}
+          title={strings.appTitle}
           onLeftIconButtonTouchTap={this.handleDrawerToggle} />
         <Drawer
           docked={false}

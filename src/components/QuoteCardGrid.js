@@ -26,7 +26,7 @@ class QuoteCardGrid extends Component {
     this.state = { 
       columns: props.columns,
       sortOrder: -1,
-      open: false,
+      sortOpen: false,
       anchorEl: null,
       symbols: props.symbols,
       quotes: {}
@@ -35,9 +35,9 @@ class QuoteCardGrid extends Component {
 
   componentDidMount() {
     this.updateQuotes(this.updateQuoteSort);
-    this.updateIntervalId = setInterval(() => {
-      this.updateQuotes(this.updateQuoteSort);
-    }, 30 * 1000);
+    // this.updateIntervalId = setInterval(() => {
+    //   this.updateQuotes(this.updateQuoteSort);
+    // }, 30 * 1000);
   }
 
   componentWillUnmount() {
@@ -87,7 +87,7 @@ class QuoteCardGrid extends Component {
   handleQuotesSort = (sortOrder) => {
     if (this.state.sortOrder !== sortOrder) {
       let symbols = this.updateQuoteSort();
-      this.setState({ symbols: symbols, sortOrder: sortOrder, open: false });
+      this.setState({ symbols: symbols, sortOrder: sortOrder, sortOpen: false });
     }
   };
 
@@ -95,19 +95,19 @@ class QuoteCardGrid extends Component {
     event.preventDefault();
 
     this.setState({
-      open: true,
+      sortOpen: true,
       anchorEl: event.currentTarget,
     });
   };
 
-  handleRequestClose = (event) => {
+  handlePopoverClose = (event) => {
     this.setState({
-      open: false,
+      sortOpen: false,
     });
   };
 
   handleAddCardClick = () => {
-
+    // TODO
   };
 
   render() {
@@ -133,18 +133,18 @@ class QuoteCardGrid extends Component {
     return (
       <GridList
         cols={this.props.columns}
-        padding={this.props.padding}>
+        style={this.props.styles}>
         <Subheader>
           {this.props.title}
           <div style={{float: 'right'}}>
             <FlatButton label={"Sort"} onClick={this.handlePopoverClick} />
             <Popover
-              open={this.state.open}
+              open={this.state.sortOpen}
               anchorEl={this.state.anchorEl}
               anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
               autoCloseWhenOffScreen={true}
               targetOrigin={{horizontal: 'right', vertical: 'top'}}
-              onRequestClose={this.handleRequestClose}
+              onRequestClose={this.handlePopoverClose}
               animation={PopoverAnimationVertical}>
             <Menu>
               <MenuItem primaryText="Price: High" onClick={() => { this.handleQuotesSort(0); }} />
@@ -157,6 +157,19 @@ class QuoteCardGrid extends Component {
       </GridList>
     ); 
   } 
+};
+
+QuoteCardGrid.defaultProps = {
+  styles: {
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around'
+    },
+    gridList: {
+      overflowY: 'auto'
+    }
+  }
 };
 
 export default QuoteCardGrid;

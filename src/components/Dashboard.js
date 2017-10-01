@@ -1,33 +1,22 @@
 import React, { Component } from 'react';
 
-import Strings from '../constants/Strings';
+import * as strings from '../constants/Strings';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import QuoteCardGrid from './QuoteCardGrid';
 import QuoteCardGridSet from './QuoteCardGridSet';
+import GridSetContainer from '../containers/GridSetContainer';
 
-
-// TODO fetch from localStorage
-const gridData = [
-    {
-      title: 'Open Positions',
-      symbols: ['MSFT', 'GPRO', 'SNAP', 'DRYS']
-    },
-    {
-      title: 'Watchlist',
-      symbols: ['FB', 'XOM', 'BABA']
-    }
-  ];
+const MAX_GRIDS = 4;
 
 class Dashboard extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
-      grids: gridData,
-      canAddGrid: true,  // gridData.length >= MAX_GRIDS,
+    this.state = {
+      canAddGrid: this.props.grids.length >= MAX_GRIDS,
       columns: (window.innerWidth > 480 ? 3 : 2),
       drawerOpen: false
     };
@@ -42,10 +31,6 @@ class Dashboard extends Component {
     window.removeEventListener('resize', this.handleWindowResize);
   }
 
-  handleQuotesUpdate = (quotes) => {
-    this.setState({ quotes: quotes });
-  }
-
   handleWindowResize = () => {
     this.setState({ columns: (window.innerWidth > 480 ? 3 : 2) });
   }
@@ -55,12 +40,15 @@ class Dashboard extends Component {
    */
 
   handleAddGridClick = () => {
+
+    const validateInput = (text) => (
+      (text || false) && text !== strings.addGridPromptHint && /^(\w)+(\s)?(\w)+$/.test(text)
+    );
+
     // TODO check for unique names
-    let title = prompt(Strings.addGridPromptTitle, Strings.addGridPromptHint);
-    if (title && title != Strings.addGridPromptHint && /^(\w)+(\s)?(\w)+$/.test(title)) {
-      let grids = this.state.grids.slice();
-      grids.push({title: title, symbols: []});
-      this.setState({grids: grids});
+    let title = prompt(strings.addGridPromptTitle, strings.addGridPromptHint);
+    if (validateInput(title)) {
+      this.props.onAddClick(title);
     } else {
       alert('Bad input. Please try again.');
     }
@@ -89,7 +77,9 @@ class Dashboard extends Component {
           onClick={() => {this.handleAddGridClick(); }}>
           <ContentAdd />
         </FloatingActionButton>
-        <QuoteCardGridSet grids={this.state.grids} columns={this.state.columns} />
+        <QuoteCardGridSet
+          grids={this.props.grids}
+          columns={this.state.columns} />
       </div>
     );
   }
