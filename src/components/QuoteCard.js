@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Card from 'material-ui/Card';
+import { Card, CardTitle, CardText } from 'material-ui/Card';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import Quote from './Quote';
@@ -22,9 +22,11 @@ export const QuoteCard = ({ quote }) => {
 
 export const EmptyQuoteCard = ({ symbol }) => {
 
+    let title = `fetching data for ${symbol}`;
+
     return (
       <Card>
-        <p>fetching data for {symbol}</p>
+        <CardTitle subtitle={title} />
       </Card>
     );
 
@@ -34,7 +36,13 @@ export const AddQuoteCard = () => {
 
     return (
       <Card>
-        <ContentAdd />
+        <CardTitle
+          subtitle={"Add another symbol"}
+          style={{textAlign: 'center', textTransform: 'uppercase'}} />
+        <CardText
+          style={{textAlign: 'center'}}>
+          <ContentAdd style={{background: '#ddd', borderRadius: '64px', padding: '6px'}} />
+        </CardText>
       </Card>
     );
 

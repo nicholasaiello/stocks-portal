@@ -97,7 +97,7 @@ class Dashboard extends Component {
 }
 
 Dashboard.defaultProps = {
-  addGridBtnStyles: {bottom: '24px', right: '16px', position: 'fixed'}
+  addGridBtnStyles: {bottom: '16px', right: '16px', position: 'fixed'}
 };
 
 export default Dashboard;

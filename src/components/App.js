@@ -12,6 +12,7 @@ import AboutPage from '../containers/AboutPage';
 import ContactPage from '../containers/ContactPage';
 import ProfilePage from '../containers/ProfilePage';
 
+import '../App.css';
 
 class App extends Component {
 
@@ -59,7 +60,7 @@ class App extends Component {
     };
 
     return (
-      <div class="app">
+      <div className="app">
         <AppBar
           title={Strings.appTitle}
           onLeftIconButtonTouchTap={this.handleDrawerToggle} />
@@ -74,7 +75,9 @@ class App extends Component {
             <MenuItem onClick={() => this.handleDrawerItemClick(2)}>About</MenuItem>
             <MenuItem onClick={() => this.handleDrawerItemClick(3)}>Contact</MenuItem>
         </Drawer>
-        {page(this.state.currentPage)}
+        <div className="page-wrapper">
+          {page(this.state.currentPage)}
+        </div>
       </div>
     );
   }

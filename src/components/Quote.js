@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import {CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {CardActions, CardTitle, CardText} from 'material-ui/Card';
 
 
 const Quote = ({ name, price, updated }) => {
@@ -12,15 +12,19 @@ const Quote = ({ name, price, updated }) => {
 
   return (
     <div className={"quote"}>
-      <CardHeader 
-        className={"name"}
+      <CardTitle 
+        className={"quote-name"}
         title={name}
-        subtitle={updated} />
-      <CardText className={"price-info"}>
-        <h3 className={"price"}>
+        showExpandableButton={true}
+        style={{padding: '4px 16px 2px 16px', borderBottom: '1px solid #f5f5f5', background: '#fbfbfb'}} />
+      <CardText
+        className={"quote-info"}
+        style={{padding: '4px 16px 8px 16px'}}>
+        <h2 className={"quote-price"}>
           {price.toFixed(2)} 
           <sup></sup>
-        </h3>
+        </h2>
+        <small className={"quote-updated"}>{updated}</small>
       </CardText>
     </div>
   );

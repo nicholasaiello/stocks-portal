@@ -4,6 +4,6 @@ body {
   font-family: sans-serif;
 }
 
-.app {
+.app .page-wrapper {
   padding: 4px 8px;
 }

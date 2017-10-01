@@ -9,14 +9,22 @@
   color: #333;
 }
 
-.quote .name {
+.quote .quote-name {
   text-align: left;
 }
 
-.quote.up .price {
+.quote .quote-price {
+	margin: 0;
+}
+
+.quote.up .quote-price {
   color:  green;
 }
 
-.quote.down .price {
+.quote.down .quote-price {
   color:  red;
+}
+
+.quote .quote-updated {
+	color: #ccc;
 }
