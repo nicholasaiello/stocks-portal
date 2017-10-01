@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import App from './containers/App';
+import App from './components/App';
 
 import registerServiceWorker from './registerServiceWorker';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -17,7 +17,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 ReactDOM.render(
     (<MuiThemeProvider>
-        <App title={"~ stocks portal ~"} />
+        <App />
     </MuiThemeProvider>),
     document.getElementById('app-root')
 );

@@ -1,9 +1,10 @@
+import { DEBUG } from '../constants/Env';
 import { API_KEY } from '../constants/AlphaVantage';
 
 
 const AlphaVantageService = (ctx) => {
 
-  const TTL = 45 * 1000;  // 45 seconds;
+  const TTL = (DEBUG ? 60 * 5 : 30) * 1000;  // 30 seconds;
 
   const baseUrl = (symbol, func = 'TIME_SERIES_INTRADAY') => (
     `https://www.alphavantage.co/query?function=${func}&symbol=${symbol}&interval=1min&apikey=${API_KEY}`
@@ -61,7 +62,7 @@ const AlphaVantageService = (ctx) => {
         resolve(quote);
       }, 500);
     });
-    
+
   }.bind(ctx);
 
   return {

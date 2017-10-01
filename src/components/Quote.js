@@ -6,6 +6,7 @@ import {CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 const Quote = ({ name, price, updated }) => {
 
+  // FIXME junk
   const priceDelta = "0.5 (1.1%)";
   const lastUpdated = "September 24, 2017 @ 05:30 CDT";  // props.updated
 

@@ -1,34 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
 
+import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import Dialog from 'material-ui/Dialog';
 
-import QuoteCardGrid from '../containers/QuoteCardGrid';
-
-
-// TODO move to consts
-const MAX_GRIDS = 4;
-
-// TODO fetch from localStorage
-  const gridData = [
-    {
-      title: 'Open Positions',
-      symbols: ['MSFT', 'GPRO', 'SNAP', 'DRYS'],
-      columns: props.columns,
-      padding: props.padding
-    },
-    {
-      title: 'Watchlist',
-      symbols: ['FB', 'XOM', 'BABA'],
-      columns: props.columns,
-      padding: props.padding
-    }
-  ];
+import QuoteCardGrid from './QuoteCardGrid';
 
 
-const QuoteCardGridSet = (props) => {
+class QuoteCardGridSet extends Component {
 
-  const styles = {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      open: false
+    };
+  }
+
+  handleAddGridClick = (e) => {
+    // TODO show dialog
+  }
+
+  handleOpen = () => {
+    this.setState({open: true});
+  }
+
+  handleClose = () => {
+    this.setState({open: false});
+  }
+
+  render() {
+    const nodes = this.props.grids.map((g, i) => (
+        <QuoteCardGrid 
+          key={i}
+          title={g.title} 
+          columns={this.props.columns}
+          padding={this.props.padding}
+          styles={this.props.gridStyles}
+          symbols={g.symbols} />
+      )
+    );
+
+    return (
+      <div>
+        <span>{nodes}</span>
+      </div>
+    );
+  }
+};
+
+QuoteCardGridSet.defaultProps = {
+  gridStyles: {
     root: {
       display: 'flex',
       flexWrap: 'wrap',
@@ -37,30 +59,7 @@ const QuoteCardGridSet = (props) => {
     gridList: {
       overflowY: 'auto'
     }
-  };
-
-  const handleAddGridClick = (e) => {
-    // TODO show dialog
-  };
-
-  const nodes = gridData.map((g, i) => (
-      <QuoteCardGrid 
-        key={i}
-        title={g.title} 
-        columns={g.columns}
-        padding={g.padding}
-        styles={styles}
-        symbols={g.symbols} 
-       />
-    )
-  );
-
-  return (
-    <span>{nodes}</span>
-    <FloatingActionButton mini={true} secondary={true} disabled={gridData.length >= MAX_GRIDS} onClick={handleAddGridClick}>
-      <ContentAdd />
-    </FloatingActionButton>
-  );
+  }
 };
 
 export default QuoteCardGridSet;

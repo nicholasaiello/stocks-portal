@@ -7,7 +7,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Quote from './Quote';
 
 
-const QuoteCard = ({ quote }) => {
+export const QuoteCard = ({ quote }) => {
 
     return (
       <Card>
@@ -20,7 +20,7 @@ const QuoteCard = ({ quote }) => {
 
 };
 
-const EmptyQuoteCard = ({ symbol }) => {
+export const EmptyQuoteCard = ({ symbol }) => {
 
     return (
       <Card>
@@ -30,7 +30,7 @@ const EmptyQuoteCard = ({ symbol }) => {
 
 };
 
-const AddQuoteCard = () => {
+export const AddQuoteCard = () => {
 
     return (
       <Card>
@@ -39,6 +39,3 @@ const AddQuoteCard = () => {
     );
 
 };
-
-export default QuoteCard;
-export default AddQuoteCard;
