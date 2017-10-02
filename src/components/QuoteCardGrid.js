@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { updateStockPrice } from '../actions';
+
 import Subheader from 'material-ui/Subheader';
 
 import IconMenu from 'material-ui/IconMenu';
@@ -27,15 +29,12 @@ class QuoteCardGrid extends Component {
     this.state = { 
       columns: props.columns,
       sortOrder: -1,
-      sortOpen: false,
-      anchorEl: null,
-      symbols: props.symbols || [],
-      quotes: {}
+      sortOpen: false
     };
   }
 
   componentDidMount() {
-    this.updateQuotes(this.updateQuoteSort);
+    this.updateQuotes();
     // this.updateIntervalId = setInterval(() => {
     //   this.updateQuotes(this.updateQuoteSort);
     // }, 30 * 1000);
@@ -48,34 +47,23 @@ class QuoteCardGrid extends Component {
   updateQuotes = (callback) => {
 
     let i = 0;
-    this.state.symbols.map((s) => {
+    this.props.symbols.map((s) => {
       setTimeout(() => {
         
-        this.dataService.fetchJson(s).then((quote) => {
-          if (quote || false) {
-            let quotes = Object.assign({}, this.state.quotes);
-            
-            quotes[quote.symbol] = quote;
-            this.setState({ quotes: quotes });
-            
-            if (callback || false) {
-              callback();
-            }
-          }
-        });
+        this.props.dispatch(updateStockPrice(s))
 
       }, FETCH_INTERVAL * i);  // throttle the api service
 
       i += 1;
     });
-    
+
   };
 
-  updateQuoteSort = () => {
-    let symbols = this.state.symbols.slice(),
+  sortQuotes = () => {
+    let symbols = this.props.symbols.slice(),
       sortOrder = this.state.sortOrder;
 
-    const quotes = this.state.quotes;
+    const quotes = this.props.quotes;
     symbols.sort((a,b) => {
       let a1 = (quotes[a] || {}).price || 0,
         b1 = (quotes[b] || {}).price || 0;
@@ -88,8 +76,7 @@ class QuoteCardGrid extends Component {
 
   handleQuotesSort = (sortOrder) => {
     if (this.state.sortOrder !== sortOrder) {
-      let symbols = this.updateQuoteSort();
-      this.setState({ symbols: symbols, sortOrder: sortOrder, sortOpen: false });
+      this.setState({ sortOrder: sortOrder, sortOpen: false });
     }
   };
 
@@ -117,8 +104,8 @@ class QuoteCardGrid extends Component {
 
   render() {
     console.debug(this.props);
-    const quotes = this.state.quotes;
-    let cards = this.props.symbols.map((s, i) => {
+    const quotes = this.props.quotes;
+    let cards = this.sortQuotes().map((s, i) => {
         let q = quotes[s];
         if (q) {
           return <QuoteCard key={i} quote={quotes[s]} />
@@ -151,6 +138,7 @@ class QuoteCardGrid extends Component {
 
     return (
       <GridList
+        cellHeight={'auto'}
         cols={this.props.columns}
         style={this.props.styles}>
         <Subheader>

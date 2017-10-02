@@ -8,8 +8,9 @@ const quotes = (state = initialState, action) => {
   console.debug(state, action)
   switch(action.type) {
     case UPDATE_STOCK:
+      const quote = action.quote;
       return Object.assign({}, state, {
-        [action.quote.symbol]: action.quote
+        [quote.symbol]: quote
       });
     default:
       return state;

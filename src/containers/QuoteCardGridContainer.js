@@ -5,12 +5,15 @@ import QuoteCardGrid from '../components/QuoteCardGrid';
 
 const mapStateToProps = (state) => {
   return {
-
+    quotes: state.quotes
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    'dispatch': (act) => {
+      dispatch(act);
+    },
     onRemoveGridClick: title => {
       dispatch(removeGrid(title));
     },

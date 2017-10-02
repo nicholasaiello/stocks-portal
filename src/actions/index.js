@@ -61,6 +61,17 @@ export const updateGrids = () => (dispatch, getState) => {
  * Stock specific actions
  */
 
+const _loadStocks = (data) => ({
+  type: types.LOAD_STOCKS,
+  quotes: data
+});
+
+export const loadStocks = () => dispatch => {
+  api.fetchStocks().then((data) => {
+    dispatch(_loadStocks(data));
+  });
+};
+
 const _addStockToGrid = (title, symbol) => ({
   type: types.ADD_STOCK,
   title: title,
@@ -72,7 +83,7 @@ export const addStockToGrid = (title, symbol) => (dispatch, getState) => {
   if (grid && grid.symbols.indexOf(symbol) === -1) {
     dispatch(_addStockToGrid(title, symbol));
     api.updateGrids(getState().grids).then((success) => {
-      dispatch(updateStockForGrid(title, symbol));
+      dispatch(updateStockPrice(symbol));
     });
   }
 };
@@ -90,18 +101,16 @@ export const removeStockFromGrid = (title, symbol) => (dispatch, getState) => {
   }
 };
 
-const _updateStockForGrid = (title, quote) => ({
+const _updateStockPrice = (quote) => ({
   type: types.UPDATE_STOCK,
-  title: title,
   quote: quote
 });
 
-export const updateStockForGrid = (title, symbol) => (dispatch, getState) => {
-  const grid = getState().grids.find(g => g.title === title);
-  if (grid && grid.symbols.indexOf(symbol) !== -1) {
-    const service = AlphaVantageService(this);
-    service.fetchJson(symbol).then((quote) => {
-      dispatch(updateGrids);
+export const updateStockPrice = (symbol) => (dispatch, getState) => {
+  const service = AlphaVantageService(this);
+  service.fetchJson(symbol).then((quote) => {
+    dispatch(_updateStockPrice(quote));
+    api.updateStocks(getState().quotes).then((success) => {
     });
-  }
+  });
 };
