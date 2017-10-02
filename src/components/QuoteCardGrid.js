@@ -28,7 +28,7 @@ class QuoteCardGrid extends Component {
       sortOrder: -1,
       sortOpen: false,
       anchorEl: null,
-      symbols: props.symbols,
+      symbols: props.symbols || [],
       quotes: {}
     };
   }

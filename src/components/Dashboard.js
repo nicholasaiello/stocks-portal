@@ -16,7 +16,6 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canAddGrid: this.props.grids.length >= MAX_GRIDS,
       columns: (window.innerWidth > 480 ? 3 : 2),
       drawerOpen: false
     };
@@ -40,7 +39,6 @@ class Dashboard extends Component {
    */
 
   handleAddGridClick = () => {
-
     const validateInput = (text) => (
       (text || false) && text !== strings.addGridPromptHint && /^(\w)+(\s)?(\w)+$/.test(text)
     );
@@ -67,13 +65,15 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log('render', this.props);
+    const canAddGrid = this.props.grids.length < MAX_GRIDS;
     return (
       <div className="dashboard">
         <FloatingActionButton 
           style={this.props.addGridBtnStyles}
           mini={true} 
           secondary={true} 
-          disabled={!this.state.canAddGrid} 
+          disabled={!canAddGrid} 
           onClick={() => {this.handleAddGridClick(); }}>
           <ContentAdd />
         </FloatingActionButton>

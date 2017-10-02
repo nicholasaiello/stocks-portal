@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addGrid, removeGrid } from '../actions';
+import { addGrid, removeGrid, updateGrids } from '../actions';
 
 import { getTotal, getCartProducts } from '../reducers'
 
@@ -14,7 +14,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => {
   return {
     onAddClick: title => {
-      dispatch(addGrid(title))
+      dispatch(addGrid(title));
+      dispatch(updateGrids());
     }
   }
 }

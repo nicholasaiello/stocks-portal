@@ -6,14 +6,22 @@ const TIMEOUT = 200
 
 export default {
 
-  fetchGrids: (callback, timeout) => {
-  	let data = JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
-  	setTimeout(() => callback(data), timeout || TIMEOUT);
+  fetchGrids: (timeout = TIMEOUT) => {
+    const data = JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(data);
+      }, timeout);
+    });
   },
 
-  updateGrids: (data, callback, timeout) => {
-  	window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  	setTimeout(() => callback(), timeout || TIMEOUT)
+  updateGrids: (data, timeout = TIMEOUT) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      }, timeout);
+    });
   }
 
 };

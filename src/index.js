@@ -13,20 +13,20 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import './index.css';
 
 /* TODO
- - incorporate redux
  - allow user to add/remove cards (symbols)
  - move magic numbers to constants
 */
 
 const store = configureStore();
-store.dispatch(loadGrids())
+store.dispatch(loadGrids());
 
 ReactDOM.render(
-    (<Provider store={store}>
+    (
     	<MuiThemeProvider>
-        	<App />
-    	</MuiThemeProvider>
-    </Provider>),
+     		<Provider store={store}>
+        		<App />
+        	</Provider>
+    	</MuiThemeProvider>),
     document.getElementById('app-root')
 );
 

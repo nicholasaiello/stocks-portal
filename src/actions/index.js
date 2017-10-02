@@ -1,4 +1,4 @@
-import grids from '../api/grids'
+import api from '../api/grids'
 import * as types from '../constants/ActionTypes'
 
 
@@ -6,15 +6,15 @@ import * as types from '../constants/ActionTypes'
  * Generic grid actions
  */
 
-const _loadGrids = (grids) => ({
+const _loadGrids = (data) => ({
   type: types.LOAD_GRIDS,
-  grids: grids
+  grids: data
 });
 
 export const loadGrids = () => dispatch => {
-  grids.fetchGrids(grids => {
-    dispatch(loadGrids(grids))
-  })
+  api.fetchGrids().then((data) => {
+    dispatch(_loadGrids(data));
+  });
 };
 
 const _addGrid = (title) => ({
@@ -23,8 +23,12 @@ const _addGrid = (title) => ({
 });
 
 export const addGrid = title => (dispatch, getState) => {
-  if (!getState().grids.find(g => g.title === title)) {
-    dispatch(_addGrid(title))
+  const data = getState().grids || [];
+  if (!data.find(g => g.title === title)) {
+    dispatch(_addGrid(title));
+    api.updateGrids(getState().grids).then((success) => {
+      // TODO
+    });
   }
 };
 
@@ -37,6 +41,15 @@ export const removeGrid = title => (dispatch, getState) => {
   if (!getState().grids.find(g => g.title === title)) {
     dispatch(_removeGrid(title));
   }
+};
+
+const _updateGrids = (data) => ({
+  type: types.UPDATE_GRIDS,
+  grids: data
+});
+
+export const updateGrids = () => (dispatch, getState) => {
+  dispatch(_updateGrids(getState().grids));
 };
 
 /**

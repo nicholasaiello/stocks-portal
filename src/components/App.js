@@ -26,7 +26,7 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-
+    console.debug(this.props);
   }
 
   componentWillUnmount = () => {
@@ -46,7 +46,6 @@ class App extends Component {
   }
 
   render() {
-
     const page = (p) => {
       switch(p) {
         case 0:
@@ -84,9 +83,5 @@ class App extends Component {
   }
 
 }
-
-App.defaultProps = {
-  addGridBtnStyles: {bottom: '24px', right: '16px', position: 'fixed'}
-};
 
 export default App;
