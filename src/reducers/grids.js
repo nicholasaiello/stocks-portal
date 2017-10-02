@@ -3,7 +3,8 @@ import {
   UPDATE_GRIDS, 
   ADD_GRID, 
   REMOVE_GRID, 
-  ADD_STOCK } 
+  ADD_STOCK,
+  REMOVE_STOCK } 
 from '../constants/ActionTypes';
 
 const initialState = [];
@@ -27,6 +28,14 @@ const grids = (state = initialState, action) => {
         }
       });
       return newState;
+    case REMOVE_STOCK:
+      let newState2 = [...state];
+      newState2.map((x, i) => {
+        if (x.title === action.title) {
+          newState2[i].symbols = newState2[i].symbols.filter((x) => x !== action.symbol);
+        }
+      });
+      return newState2;
     default:
       return state;
   }

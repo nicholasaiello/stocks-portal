@@ -98,6 +98,9 @@ export const removeStockFromGrid = (title, symbol) => (dispatch, getState) => {
   const grid = getState().grids.find(g => g.title === title);
   if (grid && grid.symbols.indexOf(symbol) !== -1) {
     dispatch(_removeStockFromGrid(title, symbol));
+    api.updateGrids(getState().grids).then((success) => {
+      dispatch(updateStockPrice(symbol));
+    });
   }
 };
 

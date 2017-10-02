@@ -102,13 +102,20 @@ class QuoteCardGrid extends Component {
     }
   };
 
+  handleRemoveCardClick = (symbol) => {
+    if (window.confirm(`Are you sure you want to remove ${symbol} from your grid?`)) {
+      let title = this.props.title;
+      this.props.onRemoveStockClick(title, symbol);
+    }
+  };
+
   render() {
     console.debug(this.props);
     const quotes = this.props.quotes;
     let cards = this.sortQuotes().map((s, i) => {
         let q = quotes[s];
         if (q) {
-          return <QuoteCard key={i} quote={quotes[s]} />
+          return <QuoteCard key={i} quote={quotes[s]} onRemoveClick={(symbol) => this.handleRemoveCardClick(symbol) } />
         } else {
           return <EmptyQuoteCard key={i} symbol={s} />
         }

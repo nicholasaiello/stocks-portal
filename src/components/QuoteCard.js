@@ -9,7 +9,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Quote from './Quote';
 
 
-export const QuoteCard = ({ quote }) => {
+export const QuoteCard = ({ quote, onRemoveClick }) => {
 
     return (
       <Card>
@@ -17,7 +17,8 @@ export const QuoteCard = ({ quote }) => {
           name={quote.symbol}
           price={quote.price}
           openPrice={quote.price}
-          updated={quote.ts} />
+          updated={quote.ts}
+          onRemoveClick={onRemoveClick} />
       </Card>
     );
 

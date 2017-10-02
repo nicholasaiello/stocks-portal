@@ -1,9 +1,10 @@
 import React from 'react'
 
 import {CardHeader, CardText} from 'material-ui/Card';
+import Chip from 'material-ui/Chip';
 
 
-const Quote = ({ name, price, openPrice, updated }) => {
+const Quote = ({ name, price, openPrice, updated, onRemoveClick }) => {
 
   const formatPrice = (price) => (
     `$${price.toFixed(2)}`
@@ -32,10 +33,10 @@ const Quote = ({ name, price, openPrice, updated }) => {
         className={"quote-name"}
         title={name}
         titleColor={"#555"}
-        actAsExpander={true}
-        style={{padding: '6px 16px 4px 16px', borderBottom: '1px solid #f5f5f5', background: '#fbfbfb'}} />
+        style={{padding: '6px 16px 4px 16px', borderBottom: '1px solid #f5f5f5', background: '#fbfbfb'}}>
+        <button style={closeIconStyles} onClick={() => onRemoveClick(name) }>X</button>
+      </CardHeader>
       <CardText
-        expandable={true}
         className={"quote-info"}
         style={{padding: '4px 16px 8px 16px'}}>
         <h2 className={"quote-price"}>
@@ -46,6 +47,17 @@ const Quote = ({ name, price, openPrice, updated }) => {
       </CardText>
     </div>
   );
+};
+
+const closeIconStyles = {
+  fontWeight: '800',
+  borderRadius: '24px',
+  background: '#fff',
+  border: '1px solid #ddd',
+  position: 'absolute',
+  top: '4px',
+  right: '8px',
+  outline: 'none'
 };
 
 export default Quote;
