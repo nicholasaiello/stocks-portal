@@ -13,9 +13,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddClick: title => {
+    onAddGridClick: title => {
       dispatch(addGrid(title));
-      dispatch(updateGrids());
+    },
+    onRemoveGridClick: title => {
+      console.debug('REMOVE: ' + title);
+      dispatch(removeGrid(title));
     }
   }
 }

@@ -38,8 +38,11 @@ const _removeGrid = title => ({
 });
 
 export const removeGrid = title => (dispatch, getState) => {
-  if (!getState().grids.find(g => g.title === title)) {
+  if (getState().grids.find(g => g.title === title)) {
     dispatch(_removeGrid(title));
+    api.updateGrids(getState().grids).then((success) => {
+      // TODO
+    });
   }
 };
 

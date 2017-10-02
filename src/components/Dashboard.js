@@ -4,10 +4,10 @@ import * as strings from '../constants/Strings';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import Snackbar from 'material-ui/Snackbar';
 
 import QuoteCardGrid from './QuoteCardGrid';
 import QuoteCardGridSet from './QuoteCardGridSet';
-import GridSetContainer from '../containers/GridSetContainer';
 
 const MAX_GRIDS = 4;
 
@@ -17,7 +17,8 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       columns: (window.innerWidth > 480 ? 3 : 2),
-      drawerOpen: false
+      snackbarOpen: false,
+      snackbarCopy: ''
     };
   }
 
@@ -44,28 +45,27 @@ class Dashboard extends Component {
     );
 
     // TODO check for unique names
-    let title = prompt(strings.addGridPromptTitle, strings.addGridPromptHint);
+    let title = window.prompt(strings.addGridPromptTitle, strings.addGridPromptHint);
     if (validateInput(title)) {
-      this.props.onAddClick(title);
-    } else {
+      this.props.onAddGridClick(title);
+    } else if (title !== null) {
       alert('Bad input. Please try again.');
     }
   }
 
   /**
-   * Drawer event listeners
+   * Snackbar event listeners
    */
 
-  handleDrawerToggle = () => {
-    this.setState({drawerOpen: !this.state.drawerOpen});
+  handleSnackbarToggle = (copy) => {
+    this.setState({snackbarOpen: true, snackbarCopy: copy});
   }
 
-  handleDrawerClose = () => {
-    this.setState({drawerOpen: false});
+  handleSnackbarClose = () => {
+    this.setState({snackbarOpen: false});
   }
 
   render() {
-    console.log('render', this.props);
     const canAddGrid = this.props.grids.length < MAX_GRIDS;
     return (
       <div className="dashboard">
@@ -79,7 +79,14 @@ class Dashboard extends Component {
         </FloatingActionButton>
         <QuoteCardGridSet
           grids={this.props.grids}
-          columns={this.state.columns} />
+          columns={this.state.columns}
+          onRemoveGridClick={this.props.onRemoveGridClick} />
+        <Snackbar
+          open={this.state.snackbarOpen}
+          message={this.state.snackbarCopy}
+          autoHideDuration={4000}
+          onRequestClose={this.handleSnackbarClose}
+        />
       </div>
     );
   }

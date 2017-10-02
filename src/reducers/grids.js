@@ -3,7 +3,7 @@ import { LOAD_GRIDS, UPDATE_GRIDS, ADD_GRID, REMOVE_GRID } from '../constants/Ac
 const initialState = [];
 
 const grids = (state = initialState, action) => {
-  console.debug(state, action);
+  console.debug(action.type, state, action);
   switch(action.type) {
     case LOAD_GRIDS:
     case UPDATE_GRIDS:

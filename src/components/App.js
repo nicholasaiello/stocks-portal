@@ -5,6 +5,7 @@ import * as strings from '../constants/Strings';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 
 import Dashboard from './Dashboard';
 import DashboardContainer from '../containers/DashboardContainer';
@@ -26,7 +27,7 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    console.debug(this.props);
+
   }
 
   componentWillUnmount = () => {
@@ -70,7 +71,7 @@ class App extends Component {
           open={this.state.drawerOpen}
           onRequestChange={(open) => this.setState({drawerOpen: open})}>
             <MenuItem onClick={() => this.handleDrawerItemClick(0)}>Overview</MenuItem>
-            <br/>
+            <Divider />
             <MenuItem onClick={() => this.handleDrawerItemClick(1)}>Profile</MenuItem>
             <MenuItem onClick={() => this.handleDrawerItemClick(2)}>About</MenuItem>
             <MenuItem onClick={() => this.handleDrawerItemClick(3)}>Contact</MenuItem>

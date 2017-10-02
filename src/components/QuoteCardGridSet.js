@@ -3,7 +3,7 @@ import React from 'react';
 import QuoteCardGrid from './QuoteCardGrid';
 
 
-const QuoteCardGridSet = ({ grids, columns }) => {
+const QuoteCardGridSet = ({ grids, columns, onRemoveGridClick = () => {} }) => {
 
   console.debug(grids);
   if (grids.length === 0) {
@@ -20,7 +20,8 @@ const QuoteCardGridSet = ({ grids, columns }) => {
           key={i}
           title={g.title}
           symbols={g.symbols}
-          columns={columns} />
+          columns={columns}
+          onRemoveClick={onRemoveGridClick} />
       )
     );
 

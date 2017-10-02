@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
 import Subheader from 'material-ui/Subheader';
-import FlatButton from 'material-ui/FlatButton';
 
-import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
+import IconMenu from 'material-ui/IconMenu';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Divider from 'material-ui/Divider';
 import GridList from 'material-ui/GridList';
 
 import { QuoteCard, EmptyQuoteCard, AddQuoteCard } from '../components/QuoteCard';
@@ -91,19 +93,10 @@ class QuoteCardGrid extends Component {
     }
   };
 
-  handlePopoverClick = (event) => {
-    event.preventDefault();
-
-    this.setState({
-      sortOpen: true,
-      anchorEl: event.currentTarget,
-    });
-  };
-
-  handlePopoverClose = (event) => {
-    this.setState({
-      sortOpen: false,
-    });
+  handleRemoveGrid = () => {
+    if (window.confirm("Are you sure you'd like to remove this grid?")) {
+      this.props.onRemoveClick(this.props.title);
+    }
   };
 
   handleAddCardClick = () => {
@@ -130,6 +123,18 @@ class QuoteCardGrid extends Component {
       );
     }
 
+    const menu = () => (
+      <IconMenu
+        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+        targetOrigin={{horizontal: 'left', vertical: 'top'}}>
+        <MenuItem primaryText="Price: High" onClick={() => { this.handleQuotesSort(0); }} />
+        <MenuItem primaryText="Price: Low" onClick={() => { this.handleQuotesSort(1); }} />
+        <Divider />
+        <MenuItem primaryText="Remove" onClick={() => { this.handleRemoveGrid(); }} />
+      </IconMenu>
+    );
+
     return (
       <GridList
         cols={this.props.columns}
@@ -137,20 +142,7 @@ class QuoteCardGrid extends Component {
         <Subheader>
           {this.props.title}
           <div style={{float: 'right'}}>
-            <FlatButton label={"Sort"} onClick={this.handlePopoverClick} />
-            <Popover
-              open={this.state.sortOpen}
-              anchorEl={this.state.anchorEl}
-              anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-              autoCloseWhenOffScreen={true}
-              targetOrigin={{horizontal: 'right', vertical: 'top'}}
-              onRequestClose={this.handlePopoverClose}
-              animation={PopoverAnimationVertical}>
-            <Menu>
-              <MenuItem primaryText="Price: High" onClick={() => { this.handleQuotesSort(0); }} />
-              <MenuItem primaryText="Price: Low" onClick={() => { this.handleQuotesSort(1); }} />
-            </Menu>
-            </Popover>
+            {menu()}
           </div>
         </Subheader>
         {cards}
