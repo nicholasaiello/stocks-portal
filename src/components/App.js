@@ -7,7 +7,6 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 
-import Dashboard from './Dashboard';
 import DashboardContainer from '../containers/DashboardContainer';
 
 import AboutPage from './AboutPage';
@@ -50,6 +49,7 @@ class App extends Component {
     const page = (p) => {
       switch(p) {
         case 0:
+        default:
           return <DashboardContainer />;
         case 1:
           return <ProfilePage />;

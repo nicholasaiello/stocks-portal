@@ -26,7 +26,7 @@ const AlphaVantageService = (ctx) => {
 
   const isCacheExpired = (obj) => {
     const created = new Date(obj._created),
-      delta = ((+new Date) - created.getTime());
+      delta = (+new Date) - created.getTime();
 
     return delta > TTL;
   };
@@ -75,7 +75,7 @@ const AlphaVantageService = (ctx) => {
         const now = new Date();
         quote.ts = new Date(quote.ts + ' E' + (now.dst() ? 'D' : 'S') + 'T');
         resolve(quote);
-      }, 500);
+      }, 250);
     });
 
   }.bind(ctx);

@@ -12,13 +12,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import './index.css';
 
-/* TODO
- - user remove grid
- - allow user to add/remove cards (symbols)
- - implement back-off logic for polling stocks
- - add more meta data to stock cards (collapsible)
- - move magic numbers to constants
-*/
 
 const store = configureStore();
 store.dispatch(loadGrids());

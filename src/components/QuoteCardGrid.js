@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Subheader from 'material-ui/Subheader';
 
 import IconMenu from 'material-ui/IconMenu';
-import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -68,15 +67,16 @@ class QuoteCardGrid extends Component {
       }, FETCH_INTERVAL * i);  // throttle the api service
 
       i += 1;
-    }); 
+    });
+    
   };
 
   updateQuoteSort = () => {
     let symbols = this.state.symbols.slice(),
       sortOrder = this.state.sortOrder;
 
+    const quotes = this.state.quotes;
     symbols.sort((a,b) => {
-      let quotes = this.state.quotes;
       let a1 = (quotes[a] || {}).price || 0,
         b1 = (quotes[b] || {}).price || 0;
 
@@ -95,19 +95,33 @@ class QuoteCardGrid extends Component {
 
   handleRemoveGrid = () => {
     if (window.confirm("Are you sure you'd like to remove this grid?")) {
-      this.props.onRemoveClick(this.props.title);
+      this.props.onRemoveGridClick(this.props.title);
     }
   };
 
   handleAddCardClick = () => {
-    // TODO
+    const validateInput = (text) => (
+      (text || false) && text !== 'Enter ticker symbol:' && /^[a-zA-Z]{2,4}$/.test(text)
+    );
+
+    // TODO check for unique names
+    let title = this.props.title,
+      symbol = window.prompt(`Add a stock card to "${title}"`, 'Enter ticker symbol:');
+
+    if (validateInput(symbol)) {
+      this.props.onAddStockClick(title, symbol.toUpperCase());
+    } else if (symbol !== null) {
+      alert('Bad input. Please try again.');
+    }
   };
 
   render() {
-    let cards = this.state.symbols.map((s, i) => {
-        let q = this.state.quotes[s];
+    console.debug(this.props);
+    const quotes = this.state.quotes;
+    let cards = this.props.symbols.map((s, i) => {
+        let q = quotes[s];
         if (q) {
-          return <QuoteCard key={i} quote={this.state.quotes[s]} />
+          return <QuoteCard key={i} quote={quotes[s]} />
         } else {
           return <EmptyQuoteCard key={i} symbol={s} />
         }
@@ -119,11 +133,11 @@ class QuoteCardGrid extends Component {
 
     if (canAddMore) {
       cards.push(
-        <AddQuoteCard key={size} onClick={this.handleAddCardClick} />
+        <AddQuoteCard key={size} onClick={() => { this.handleAddCardClick(); }} />
       );
     }
 
-    const menu = () => (
+    const iconMenu = () => (
       <IconMenu
         iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
         anchorOrigin={{horizontal: 'left', vertical: 'top'}}
@@ -141,8 +155,8 @@ class QuoteCardGrid extends Component {
         style={this.props.styles}>
         <Subheader>
           {this.props.title}
-          <div style={{float: 'right'}}>
-            {menu()}
+          <div style={{float: 'right', clear: 'both'}}>
+            {iconMenu()}
           </div>
         </Subheader>
         {cards}

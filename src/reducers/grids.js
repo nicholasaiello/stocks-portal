@@ -1,9 +1,14 @@
-import { LOAD_GRIDS, UPDATE_GRIDS, ADD_GRID, REMOVE_GRID } from '../constants/ActionTypes';
+import { 
+  LOAD_GRIDS, 
+  UPDATE_GRIDS, 
+  ADD_GRID, 
+  REMOVE_GRID, 
+  ADD_STOCK } 
+from '../constants/ActionTypes';
 
 const initialState = [];
 
 const grids = (state = initialState, action) => {
-  console.debug(action.type, state, action);
   switch(action.type) {
     case LOAD_GRIDS:
     case UPDATE_GRIDS:
@@ -14,6 +19,14 @@ const grids = (state = initialState, action) => {
       return state.filter((grid) => (
         grid.title !== action.title
       ));
+    case ADD_STOCK:
+      let newState = [...state];
+      newState.forEach((x, i) => {
+        if (x.title === action.title) {
+          newState[i].symbols = action.symbols.concat(newState[i].symbols);
+        }
+      });
+      return newState;
     default:
       return state;
   }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import {CardHeader, CardText} from 'material-ui/Card';
 
 
 const Quote = ({ name, price, openPrice, updated }) => {

@@ -1,6 +1,8 @@
 import api from '../api/grids'
 import * as types from '../constants/ActionTypes'
 
+import AlphaVantageService from '../services/AlphaVantageService';
+
 
 /**
  * Generic grid actions
@@ -62,13 +64,16 @@ export const updateGrids = () => (dispatch, getState) => {
 const _addStockToGrid = (title, symbol) => ({
   type: types.ADD_STOCK,
   title: title,
-  symbol: symbol
+  symbols: [symbol]
 });
 
 export const addStockToGrid = (title, symbol) => (dispatch, getState) => {
   const grid = getState().grids.find(g => g.title === title);
-  if (grid || false && grid.symbols.indexOf(symbol) === -1) {
-    dispatch(_addStockToGrid(title, symbol))
+  if (grid && grid.symbols.indexOf(symbol) === -1) {
+    dispatch(_addStockToGrid(title, symbol));
+    api.updateGrids(getState().grids).then((success) => {
+      dispatch(updateStockForGrid(title, symbol));
+    });
   }
 };
 
@@ -80,7 +85,23 @@ const _removeStockFromGrid = (title, symbol) => ({
 
 export const removeStockFromGrid = (title, symbol) => (dispatch, getState) => {
   const grid = getState().grids.find(g => g.title === title);
-  if (grid || false && grid.symbols.indexOf(symbol) !== -1) {
-    dispatch(_removeStockFromGrid(title, symbol))
+  if (grid && grid.symbols.indexOf(symbol) !== -1) {
+    dispatch(_removeStockFromGrid(title, symbol));
+  }
+};
+
+const _updateStockForGrid = (title, quote) => ({
+  type: types.UPDATE_STOCK,
+  title: title,
+  quote: quote
+});
+
+export const updateStockForGrid = (title, symbol) => (dispatch, getState) => {
+  const grid = getState().grids.find(g => g.title === title);
+  if (grid && grid.symbols.indexOf(symbol) !== -1) {
+    const service = AlphaVantageService(this);
+    service.fetchJson(symbol).then((quote) => {
+      dispatch(updateGrids);
+    });
   }
 };

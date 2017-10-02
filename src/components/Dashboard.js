@@ -6,7 +6,6 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import Snackbar from 'material-ui/Snackbar';
 
-import QuoteCardGrid from './QuoteCardGrid';
 import QuoteCardGridSet from './QuoteCardGridSet';
 
 const MAX_GRIDS = 4;
@@ -74,13 +73,12 @@ class Dashboard extends Component {
           mini={true} 
           secondary={true} 
           disabled={!canAddGrid} 
-          onClick={() => {this.handleAddGridClick(); }}>
+          onClick={() => { this.handleAddGridClick(); }}>
           <ContentAdd />
         </FloatingActionButton>
         <QuoteCardGridSet
           grids={this.props.grids}
-          columns={this.state.columns}
-          onRemoveGridClick={this.props.onRemoveGridClick} />
+          columns={this.state.columns} />
         <Snackbar
           open={this.state.snackbarOpen}
           message={this.state.snackbarCopy}

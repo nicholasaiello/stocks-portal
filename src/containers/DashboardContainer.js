@@ -1,8 +1,5 @@
 import { connect } from 'react-redux';
-import { addGrid, removeGrid, updateGrids } from '../actions';
-
-import { getTotal, getCartProducts } from '../reducers'
-
+import { addGrid, removeGrid } from '../actions';
 
 import Dashboard from '../components/Dashboard';
 
@@ -17,7 +14,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(addGrid(title));
     },
     onRemoveGridClick: title => {
-      console.debug('REMOVE: ' + title);
       dispatch(removeGrid(title));
     }
   }

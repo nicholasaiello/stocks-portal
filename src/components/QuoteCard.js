@@ -16,7 +16,7 @@ export const QuoteCard = ({ quote }) => {
         <Quote 
           name={quote.symbol}
           price={quote.price}
-          openPrice={quote.price + 0.44}
+          openPrice={quote.price}
           updated={quote.ts} />
       </Card>
     );
@@ -35,16 +35,16 @@ export const EmptyQuoteCard = ({ symbol }) => {
 
 };
 
-export const AddQuoteCard = () => {
+export const AddQuoteCard = ({ onClick }) => {
 
     return (
-      <Card>
+      <Card onClick={onClick}>
         <CardTitle
           subtitle={strings.addQuoteCardTitle}
           style={{padding: '8px 16px', textAlign: 'center', textTransform: 'uppercase'}} />
         <CardText
           style={{textAlign: 'center'}}>
-          <ContentAdd style={{padding: '8px 16px', background: '#ddd', borderRadius: '64px', padding: '6px'}} />
+          <ContentAdd style={{padding: '6px', background: 'gold', borderRadius: '64px'}} />
         </CardText>
       </Card>
     );

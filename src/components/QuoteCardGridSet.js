@@ -1,6 +1,6 @@
 import React from 'react';
 
-import QuoteCardGrid from './QuoteCardGrid';
+import QuoteCardGridContainer from '../containers/QuoteCardGridContainer';
 
 
 const QuoteCardGridSet = ({ grids, columns, onRemoveGridClick = () => {} }) => {
@@ -16,12 +16,11 @@ const QuoteCardGridSet = ({ grids, columns, onRemoveGridClick = () => {} }) => {
   }
 
   const nodes = grids.map((g, i) => (
-        <QuoteCardGrid 
+        <QuoteCardGridContainer 
           key={i}
           title={g.title}
           symbols={g.symbols}
-          columns={columns}
-          onRemoveClick={onRemoveGridClick} />
+          columns={columns} />
       )
     );
 
