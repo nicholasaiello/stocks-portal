@@ -18,8 +18,8 @@ const Quote = ({ name, price, openPrice, updated }) => {
   let priceDelta, quoteClassName;
 
   // price is at least a day old
-  if (now.toDateString() === updated.toDateString()) {
-    priceDelta = '';
+  if (now.toDateString() !== updated.toDateString()) {
+    priceDelta = null;
     quoteClassName = '';
   } else {
     priceDelta = openPrice - price;
@@ -40,7 +40,7 @@ const Quote = ({ name, price, openPrice, updated }) => {
         style={{padding: '4px 16px 8px 16px'}}>
         <h2 className={"quote-price"}>
           {formatPrice(price)} 
-          <sup>{formatPriceChange(priceDelta, openPrice)}</sup>
+          {priceDelta !== null ? <sup>{formatPriceChange(priceDelta, openPrice)}</sup> : ''}
         </h2>
         <small className={"quote-updated"}>last tick: {updated.toLocaleString()}</small>
       </CardText>

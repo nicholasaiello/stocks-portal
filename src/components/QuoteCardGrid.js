@@ -68,7 +68,7 @@ class QuoteCardGrid extends Component {
       let a1 = (quotes[a] || {}).price || 0,
         b1 = (quotes[b] || {}).price || 0;
 
-      return !sortOrder ? a1 - b1 : b1 - a1;
+      return sortOrder ? a1 - b1 : b1 - a1;
     });
 
     return symbols;
